@@ -1,0 +1,6 @@
+[package]
+name = "triplets"
+version = "0.1.0"
+authors = ["angusturner <angusturner27@gmail.com>"]
+
+[dependencies]
