@@ -8,18 +8,16 @@ fn main() {
     // extract the time portion of the input into a vector of integers vec![h:m:s]
     let mut time: Vec<u8> = line[..8]
         .split(":")
-        .map(str_to_u8)
+        .map(|x| x.parse::<u8>().expect("Parse error"))
         .collect::<Vec<u8>>();
 
     // convert 12 --> 0
     time[0] = time[0]%12;
 
     // if the suffix is PM, add 12 to hour integer
-    let suffix = &line[8..10];
-    match suffix {
-        "PM" => time[0] = time[0]+12,
-        _ => ()
-    };
+    if &line[8..10] == "PM" {
+        time[0] += 12;
+    }
 
     // co-erce the time back into a string
     let output: String = time.iter()
@@ -30,17 +28,11 @@ fn main() {
     println!("{}", output)
 }
 
-// parse an integer to a unsigned integer
-fn str_to_u8(x: &str) -> u8 {
-    x.parse::<u8>().expect("Parse error")
-}
-
 // parse an integer to a padded string
 fn u8_to_str(x: &u8) -> String {
     let mut out: String = x.to_string();
-    match out.len() {
-        1 => out = "0".to_string()+&out,
-        _ => ()
-    };
+    if out.len() == 1 {
+        out = "0".to_string()+&out;
+    }
     out
 }
